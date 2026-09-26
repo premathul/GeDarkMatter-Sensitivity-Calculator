@@ -24,8 +24,16 @@ The long-term goal is to support publication-quality sensitivity calculations fo
 
 A sensitivity result should always be accompanied by the assumptions that produced it: signal model, exposure, energy range, binning, threshold, efficiency, detector resolution, background model, statistical method, and software version. The project is designed to make those assumptions explicit and reproducible.
 
+## Runnable scientific baseline
+
+This baseline treats the analysis as one Poisson counting bin. Given an integer observed count n and an assumed exactly known background b, it finds the nonnegative signal count s for which the lower-tail probability P(N ≤ n | b+s) is 0.1. Dividing by exposure and a single efficiency yields an upper event rate in counts per kilogram-day. The computation is a classical one-sided construction with a physical zero-signal boundary; it does not model background uncertainty or guarantee every desired coverage property after additional selection rules.
+
+Run `python src/main.py --observed 0 --background 0 --exposure-kg-day 100 --efficiency 0.8`. The zero-background, zero-count check is s = −ln(0.1) ≈ 2.302585 counts. No dark-matter cross-section appears in this output: converting a count-rate bound into a mass-dependent cross-section requires a documented halo and interaction model, germanium recoil or electron response, thresholds, resolution, acceptance as a function of energy, and the signal spectrum. Avoid interpreting this baseline as an experimental exclusion curve.
+
+## Validation and scope
+
+The calculations in `src/main.py` are transparent baseline models intended for reproducibility and extension. Inputs and assumptions should be reported alongside outputs; numerical agreement with a plotted trace alone does not validate a material-specific prediction. New physical terms should be accompanied by dimensional checks and independent limiting-case comparisons.
+
 ## Contact
 
-**Athul Prem**
-
-For scientific discussion, collaboration, or suggestions related to this project, please contact Athul Prem through the GitHub account associated with this repository.
+**Athul Prem** — [GitHub profile](https://github.com/premathul). For scientific discussion or collaboration, open an issue in this repository or reach out through my GitHub profile.
